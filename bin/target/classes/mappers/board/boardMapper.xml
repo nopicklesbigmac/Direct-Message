@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.boot.board.repository.IBoardDAO">
+	<insert id="writeProc" parameterType="BoardDTO">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT nvl(max(no), 0)+1 FROM quiz_board
+		</selectKey>
+		INSERT INTO quiz_board VALUES(#{no}, #{id}, #{title}, #{content}, #{fileName}, #{writeDate}, #{hit})
+	</insert>
+	
+	<select id="viewProc" resultType="BoardDTO" parameterType="int">
+		SELECT * FROM quiz_board WHERE no=#{no}
+	</select>
+	
+	<update id="upHit" parameterType="int" >
+		UPDATE quiz_board SET hit=hit+1 WHERE no=#{no}
+	</update>
+	
+	<select id="boardProc" resultType="BoardDTO">
+		SELECT B.* FROM(
+			SELECT rownum rn, A.* FROM(
+				SELECT * FROM quiz_board
+				<choose>
+					<when test="sel == 'id'">WHERE id LIKE '%'||#{search}||'%'</when>
+					<when test="sel == 'title'">WHERE title LIKE '%'||#{search}||'%'</when>
+				</choose>
+				 ORDER BY no DESC 
+			)A
+		)B WHERE rn BETWEEN #{b} and #{e}
+	</select>
+	<select id="boardCount" resultType="int"  parameterType="HashMap">
+		SELECT count(*) FROM quiz_board 
+		<choose>
+			<when test="select == 'id'">WHERE id LIKE '%'||#{search}||'%'</when>
+			<when test="select == 'title'">WHERE title LIKE '%'||#{search}||'%'</when>
+		</choose>
+	</select>
+	<update id="modifyProc" parameterType="BoardDTO" >
+		UPDATE quiz_board SET title=#{title}, content=#{content} WHERE no=#{no}
+	</update>
+	<delete id="deleteProc" parameterType="int">
+		DELETE FROM quiz_board WHERE no=#{no}
+	</delete>	
+	<select id="getFileName" parameterType="int" resultType="String">
+		SELECT filename FROM quiz_board WHERE no=#{no}
+	</select>
+</mapper>
