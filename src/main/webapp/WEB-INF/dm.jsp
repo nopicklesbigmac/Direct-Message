@@ -46,11 +46,11 @@
 				<ul>
 				<c:forEach var="left_msg" items="${left_msg}" varStatus="status">
 								<c:choose>
-								<c:when test="${left_msg.sender.username eq sessionScope.Sender}">
-									<c:set var="receiver_left" value="${left_msg.receiver.username}"></c:set>
+								<c:when test="${left_msg.sender eq sessionScope.Sender}">
+									<c:set var="receiver_left" value="${left_msg.receiver}"></c:set>
 								</c:when>
 								<c:otherwise> 
-									<c:set var="receiver_left" value="${left_msg.sender.username}"></c:set>
+									<c:set var="receiver_left" value="${left_msg.sender}"></c:set>
 								</c:otherwise>
 								</c:choose>
 					<li class="msg_rcv" value="${receiver_left}">
@@ -82,6 +82,7 @@
 				<div class="message mCustomScrollbar" data-mcs-theme="minimal-dark">
 					<ul class="msg-ul">
 						<c:forEach var="message" items="${messages}" varStatus="status">
+						<c:if test="${receiver eq message.sender || receiver eq message.receiver}">
 							<fmt:formatDate value="${messages[status.index - 1].timestamp}" pattern="yyyy-MM-dd" var="y-day" />
 							<fmt:formatDate value="${message.timestamp}" pattern="yyyy-MM-dd" var="x-day" />
 							<c:if
@@ -93,7 +94,7 @@
 								</li>
 							</c:if>
 							<c:choose>
-								<c:when test="${message.sender.username eq sessionScope.Sender}">
+								<c:when test="${message.sender eq sessionScope.Sender}">
 									<li class="msg-right">
 								</c:when>
 								<c:otherwise> 
@@ -111,6 +112,7 @@
 											</small>
 										</div>
 									</li>
+									</c:if>
 						</c:forEach>
 					</ul>
 					<ul style="height: 70px">
@@ -125,7 +127,7 @@
 							</button>
 							<input type="file" name="myfile" />
 						</div>
-						<input type="text" name="content" placeholder="type here..."
+						<input type="text"  name="content" placeholder="type here..."
 							required>
 						<button type="submit" class="btn-send">
 							<i class="fa fa-send"></i>

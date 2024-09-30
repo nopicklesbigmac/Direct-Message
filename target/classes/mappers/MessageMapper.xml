@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.chat.MessageDAO">
+    <insert id="insertMessage" parameterType="Message">
+        INSERT INTO message2 (id, sender_username, receiver_username, content, timestamp)
+        VALUES (seq_message.nextval, #{sender_username}, #{receiver_username}, #{content}, SYSTIMESTAMP)
+    </insert>
+    
+    <select id="getAllMessages" resultType="Message">
+        SELECT *
+        FROM message2
+        ORDER BY timestamp DESC
+    </select>
+</mapper>
+

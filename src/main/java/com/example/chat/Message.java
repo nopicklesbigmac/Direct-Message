@@ -1,54 +1,18 @@
 package com.example.chat;
 
-
 import java.sql.Timestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-import java.util.UUID;
-@Entity
-@Table(name = "message")
 public class Message {
-    @Id
-   
-    private String  id;
-    @ManyToOne
-    private User sender;
-    @ManyToOne
-    private User receiver;
-
-    private String content;
-    private Timestamp timestamp;
-
-    public String  getId() {
+	private Long id;
+    private String sender_username;
+    private String receiver_username;
+	private String content;
+	private Timestamp timestamp;
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
-	}
-	public User getSender() {
-		return sender;
-	}
-	public void setSender(User sender) {
-		this.sender = sender;
-	}
-	public User getReceiver() {
-		return receiver;
-	}
-	public void setReceiver(User receiver) {
-		this.receiver = receiver;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
 	}
 	public Timestamp getTimestamp() {
 		return timestamp;
@@ -56,10 +20,23 @@ public class Message {
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
-	   public Message() {
-	        this.id = UUID.randomUUID().toString(); // UUID를 생성하여 id에 할당
-	        this.timestamp = new Timestamp(System.currentTimeMillis()); // 현재 시간으로 타임스탬프 초기화
-	    }
 
-    // getters and setters
+	public String getSender_username() {
+		return sender_username;
+	}
+	public void setSender_username(String sender_username) {
+		this.sender_username = sender_username;
+	}
+	public String getReceiver_username() {
+		return receiver_username;
+	}
+	public void setReceiver_username(String receiver_username) {
+		this.receiver_username = receiver_username;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
 }
